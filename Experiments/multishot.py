@@ -12,25 +12,25 @@ import os
 
 
 
-from prettytable import PrettyTable
 
 def count_parameters(model):
-    table = PrettyTable(["Modules", "Parameters"])
+    # table = PrettyTable(["Modules", "Parameters"])
     total_params = 0
     for name, parameter in model.named_parameters():
         if not parameter.requires_grad: 
             continue
-        if 'bias' in name:
+        if 'bn' in name:
             continue
 
         param = parameter.numel()
-        param_zero = (parameter ==0).sum()
+        param_zero = (parameter ==0.0).sum()
         param = param - param_zero
-        table.add_row([name, param])
+        # table.add_row([name, param])
         total_params+=param
-    print(table)
+    # print(table)
     print(f"Total Trainable Params: {total_params}")
     return total_params
+
 def run(args):
 
     logger.setup_logger(args)
